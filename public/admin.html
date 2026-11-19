@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админ-панель — CABANI SHOES OUTLET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+
+<!-- Login View -->
+<div id="loginView" class="login-wrap">
+  <form id="loginForm" class="login-card">
+    <div class="brand">CABANI <small>SHOES OUTLET · ADMIN</small></div>
+    <p class="muted">Панель управления магазином</p>
+    
+    <label>
+      Логин администратора
+      <input name="username" autocomplete="username" required value="admin">
+    </label>
+    
+    <label>
+      Пароль
+      <input name="password" type="password" autocomplete="current-password" required placeholder="Введите пароль">
+      <small class="hint">Пароль по умолчанию: <b>Cabani2026!</b></small>
+    </label>
+    
+    <button type="submit" class="primary login-btn">Войти в панель →</button>
+    <p class="error" id="loginError"></p>
+  </form>
+</div>
+
+<!-- Main App View -->
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand">CABANI <small>SHOES OUTLET</small></div>
+    <div class="side-caption">МЕНЮ УПРАВЛЕНИЯ</div>
+    <button class="side-link active" data-tab="overview">▦ Обзор</button>
+    <button class="side-link" data-tab="products">◇ Товары</button>
+    <button class="side-link" data-tab="orders">▤ Заказы <b id="newBadge" style="display:none;">0</b></button>
+    <button class="side-link" data-tab="settings">⚙ Настройки и Telegram</button>
+    
+    <div class="side-bottom">
+      <a href="/" target="_blank" class="store-btn">↗ Открыть магазин</a>
+      <button class="side-link logout-btn" id="logoutBtn">↪ Выйти</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="muted tiny">CABANI SHOES OUTLET / <span id="pageName">ОБЗОР</span></div>
+        <h1 id="pageTitle">Обзор магазина</h1>
+      </div>
+      <div class="topbar-actions">
+        <a href="/" target="_blank" class="store-link">Открыть витрину ↗</a>
+      </div>
+    </header>
+
+    <!-- Overview Tab -->
+    <section id="overviewTab" class="tab">
+      <div class="stats">
+        <article>
+          <span>ВСЕГО ТОВАРОВ</span>
+          <strong id="statProducts">—</strong>
+        </article>
+        <article>
+          <span>АКТИВНЫХ В МАГАЗИНЕ</span>
+          <strong id="statActive">—</strong>
+        </article>
+        <article>
+          <span>ВСЕГО ЗАКАЗОВ</span>
+          <strong id="statOrders">—</strong>
+        </article>
+        <article class="highlight-stat">
+          <span>НОВЫХ ЗАКАЗОВ</span>
+          <strong id="statNew">—</strong>
+        </article>
+        <article>
+          <span>ВЫРУЧКА (ВЫПОЛНЕННЫЕ)</span>
+          <strong id="statRevenue">—</strong>
+        </article>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Последние поступившие заказы</h2>
+            <p class="muted">Следите за новыми покупками в реальном времени</p>
+          </div>
+          <button class="outline" data-goto="orders">Все заказы →</button>
+        </div>
+        <div id="recentOrders"></div>
+      </div>
+    </section>
+
+    <!-- Products Tab -->
+    <section id="productsTab" class="tab hidden">
+      <div class="toolbar">
+        <div>
+          <h2>Каталог товаров</h2>
+          <div class="muted">Добавляйте, редактируйте цены, размеры и фотографии</div>
+        </div>
+        <button class="primary" id="addProductBtn">＋ Добавить товар</button>
+      </div>
+
+      <div class="panel">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ТОВАР</th>
+                <th>КАТЕГОРИЯ</th>
+                <th>ЦЕНА</th>
+                <th>РАЗМЕРЫ В НАЛИЧИИ</th>
+                <th>СТАТУС</th>
+                <th style="text-align: right;">ДЕЙСТВИЯ</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Orders Tab -->
+    <section id="ordersTab" class="tab hidden">
+      <div class="toolbar">
+        <div>
+          <h2>Управление заказами</h2>
+          <div class="muted">Просматривайте контакты покупателей и меняйте статусы доставки</div>
+        </div>
+        <select id="orderFilter">
+          <option value="all">Все заказы</option>
+          <option value="new">🟡 Только новые</option>
+          <option value="confirmed">🔵 Подтверждённые</option>
+          <option value="processing">🟣 В обработке</option>
+          <option value="shipped">🚚 Отправленные</option>
+          <option value="completed">🟢 Завершённые</option>
+          <option value="cancelled">🔴 Отменённые</option>
+        </select>
+      </div>
+
+      <div class="panel">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>№ ЗАКАЗА</th>
+                <th>ПОКУПАТЕЛЬ</th>
+                <th>СОСТАВ ЗАКАЗА</th>
+                <th>СУММА</th>
+                <th>СТАТУС ЗАКАЗА</th>
+                <th>ДАТА</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Tab -->
+    <section id="settingsTab" class="tab hidden">
+      <div class="settings-grid">
+        
+        <!-- Telegram Settings Card -->
+        <div class="panel">
+          <h2>🔔 Уведомления о заказах в Telegram</h2>
+          <p class="muted">Подключите Telegram-бота, чтобы мгновенно получать заказы с сайта прямо на телефон.</p>
+          
+          <form id="telegramSettingsForm" class="settings-form">
+            <label>
+              Telegram Bot Token
+              <input type="text" name="telegramBotToken" id="telegramBotTokenInput" placeholder="Например: 7891234567:AAFn...">
+              <small class="hint">Создайте бота у <b>@BotFather</b> и скопируйте HTTP API Token</small>
+            </label>
+
+            <label>
+              Telegram Chat ID (Ваш ID или ID группы)
+              <input type="text" name="telegramChatId" id="telegramChatIdInput" placeholder="Например: 123456789">
+              <small class="hint">Узнайте свой ID через бота <b>@userinfobot</b> (нажмите Start)</small>
+            </label>
+
+            <div class="btn-group">
+              <button type="submit" class="primary">💾 Сохранить настройки</button>
+              <button type="button" class="outline" id="testTelegramBtn">⚡ Отправить тест в Telegram</button>
+            </div>
+            <p id="telegramMessage" class="status-msg"></p>
+          </form>
+        </div>
+
+        <!-- Store Info Card -->
+        <div class="panel">
+          <h2>🏪 Контакты и данные магазина</h2>
+          <p class="muted">Отображаются на сайте в шапке и подвале</p>
+          
+          <form id="storeSettingsForm" class="settings-form">
+            <label>
+              Название магазина
+              <input type="text" name="storeName" id="storeNameInput" required value="CABANI SHOES OUTLET">
+            </label>
+
+            <label>
+              Номер WhatsApp / Телефон поддержки
+              <input type="text" name="whatsappNumber" id="whatsappNumberInput" placeholder="998901234567">
+              <small class="hint">В международном формате без плюса, например: 998901234567</small>
+            </label>
+
+            <button type="submit" class="primary">💾 Сохранить контакты</button>
+            <p id="storeMessage" class="status-msg"></p>
+          </form>
+        </div>
+
+        <!-- Password Change Card -->
+        <div class="panel">
+          <h2>🔒 Безопасность администратора</h2>
+          <p class="muted">Смените пароль для защиты входа в админ-панель</p>
+          
+          <form id="passwordForm" class="settings-form">
+            <label>
+              Текущий пароль
+              <input type="password" name="currentPassword" required placeholder="Введите старый пароль">
+            </label>
+
+            <label>
+              Новый пароль
+              <input type="password" name="newPassword" minlength="8" required placeholder="Минимум 8 символов">
+            </label>
+
+            <button type="submit" class="primary">Обновить пароль</button>
+            <p id="passwordMessage" class="status-msg"></p>
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Product Modal Backdrop -->
+<div class="modal-backdrop hidden" id="productBackdrop">
+  <form class="product-modal" id="productForm">
+    <div class="modal-head">
+      <div>
+        <span class="muted tiny">КАТАЛОГ CABANI / ТОВАР</span>
+        <h2 id="productModalTitle">Новый товар</h2>
+      </div>
+      <button type="button" class="x" id="closeProduct">×</button>
+    </div>
+
+    <input type="hidden" name="id">
+
+    <div class="form-grid">
+      <label class="wide">
+        Название товара *
+        <input name="name" required maxlength="120" placeholder="Например: CABANI Classic Loafers">
+      </label>
+
+      <label>
+        Категория *
+        <select name="category">
+          <option value="shoes">Обувь</option>
+          <option value="clothing">Одежда</option>
+          <option value="accessories">Аксессуары</option>
+        </select>
+      </label>
+
+      <label>
+        Цена со скидкой (сум) *
+        <input name="price" type="number" min="0" required placeholder="Например: 890000">
+      </label>
+
+      <label>
+        Старая цена до скидки (необязательно)
+        <input name="old_price" type="number" min="0" placeholder="Например: 1150000">
+      </label>
+
+      <div class="wide">
+        <label>
+          Размеры в наличии (через запятую) *
+          <input name="sizes" id="sizesInput" placeholder="40, 41, 42, 43, 44" required>
+        </label>
+        <div class="quick-sizes">
+          <span class="muted tiny">БЫСТРЫЙ ВЫБОР:</span>
+          <button type="button" class="size-chip" data-sizes="39, 40, 41, 42, 43, 44, 45">Обувь 39-45</button>
+          <button type="button" class="size-chip" data-sizes="40, 41, 42, 43, 44">Обувь 40-44</button>
+          <button type="button" class="size-chip" data-sizes="36, 37, 38, 39, 40">Обувь 36-40</button>
+          <button type="button" class="size-chip" data-sizes="S, M, L, XL, 2XL">Одежда S-2XL</button>
+          <button type="button" class="size-chip" data-sizes="ONE SIZE">ONE SIZE</button>
+        </div>
+      </div>
+
+      <label class="wide">
+        Описание товара
+        <textarea name="description" rows="3" placeholder="Укажите материал (кожа, замша), особенности подошвы, стиль..."></textarea>
+      </label>
+
+      <div class="wide photo-upload-box">
+        <label><b>Фотография товара</b></label>
+        <div class="photo-controls">
+          <label class="file-pick-btn">
+            📁 Загрузить фото с телефона / ПК
+            <input type="file" id="imageFileInput" accept="image/*" style="display:none;">
+          </label>
+          <span class="muted">или</span>
+          <input type="url" id="imageUrlInput" placeholder="Вставьте прямую ссылку на фото (https://...)" style="flex:1;">
+        </div>
+
+        <div class="preview-wrap">
+          <img id="imagePreview" class="preview hidden" alt="Предпросмотр фото">
+          <button type="button" class="mini-del hidden" id="removePhotoBtn">✕ Удалить фото</button>
+        </div>
+        <small class="muted">Поддерживаются форматы JPG, PNG, WEBP. Фото автоматически оптимизируется для быстрой загрузки.</small>
+      </div>
+
+      <label class="check wide">
+        <input type="checkbox" name="active" checked>
+        <b>Показывать товар в каталоге магазина</b>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="outline" id="cancelProduct">Отмена</button>
+      <button class="primary" type="submit" id="saveProductBtn">Сохранить товар</button>
+    </div>
+    <p id="productError" class="error"></p>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/admin.js"></script>
+</body>
+</html>

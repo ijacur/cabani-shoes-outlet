@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CABANI SHOES OUTLET — премиальная обувь, одежда и аксессуары со скидками. Выберите свой стиль и оформите заказ онлайн.">
+  <meta name="theme-color" content="#191916">
+  <meta property="og:title" content="CABANI SHOES OUTLET">
+  <meta property="og:description" content="Премиальная обувь и аксессуары с характером. Выгодные цены аутлета.">
+  <meta property="og:type" content="website">
+  <title>CABANI SHOES OUTLET — Официальный магазин</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/store.css">
+</head>
+<body>
+
+<!-- Top Notification Bar -->
+<div class="top-bar">
+  <span>CABANI SHOES OUTLET · ПРЕМИАЛЬНЫЙ СТИЛЬ ПО СПЕЦИАЛЬНЫМ ЦЕНАМ АУТЛЕТА · ДОСТАВКА ПО ТАШКЕНТУ И УЗБЕКИСТАНУ</span>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <a class="logo" href="/">
+    CABANI
+    <small>SHOES OUTLET</small>
+  </a>
+  <nav class="nav">
+    <a href="#catalog">Каталог</a>
+    <a href="#about">О бренде</a>
+    <a href="#contacts">Контакты и доставка</a>
+    <a href="/admin" class="nav-admin" title="Вход для владельца">Вход в панель</a>
+  </nav>
+  <button id="cartOpen" class="cart-btn">
+    🛒 КОРЗИНА <b id="count">0</b>
+  </button>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <small class="eyebrow">THE ART OF EVERYDAY STYLE</small>
+    <h1>Стиль, который<br><i>говорит за тебя.</i></h1>
+    <p>Оригинальная обувь, кожаные аксессуары и одежда CABANI. Эксклюзивные скидки аутлета до 40% на актуальные коллекции.</p>
+    <div class="hero-actions">
+      <a class="cta" href="#catalog">СМОТРЕТЬ КАТАЛОГ ↗</a>
+      <a class="cta-secondary" href="#contacts">КОНТАКТЫ</a>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <div class="hero-badge">NEW COLLECTION · 2026</div>
+  </div>
+</section>
+
+<!-- Catalog Section -->
+<main id="catalog" class="catalog-section">
+  <div class="heading">
+    <small>ОРИГИНАЛЬНАЯ КОЛЛЕКЦИЯ</small>
+    <h2>Каталог <i>CABANI</i></h2>
+    <p class="muted">Выберите категорию или найдите нужную модель по названию</p>
+  </div>
+
+  <div class="filters-bar">
+    <div class="category-buttons">
+      <button class="filter-btn active" data-cat="all">Все модели</button>
+      <button class="filter-btn" data-cat="shoes">Обувь</button>
+      <button class="filter-btn" data-cat="clothing">Одежда</button>
+      <button class="filter-btn" data-cat="accessories">Аксессуары</button>
+    </div>
+    <div class="search-box">
+      <input id="search" placeholder="🔍 Поиск по названию...">
+    </div>
+  </div>
+
+  <div id="products" class="grid">
+    <div class="loading-state">Загрузка каталога товаров...</div>
+  </div>
+</main>
+
+<!-- About Section -->
+<section id="about" class="about">
+  <div class="about-container">
+    <small>ПРЕВОСХОДСТВО В КАЖДОЙ ДЕТАЛИ</small>
+    <h2>Ваш стиль.<br><i>Ваши правила.</i></h2>
+    <p><b>CABANI SHOES OUTLET</b> — пространство для тех, кто ценит комфорт, долговечность и безупречный итальянский силуэт. Каждая пара создана из отборной натуральной кожи с ручной отделкой швов и анатомической стелькой.</p>
+    <div class="about-features">
+      <div class="feat">
+        <b>100% Натуральная кожа</b>
+        <span>Только премиальные материалы растительного дубления</span>
+      </div>
+      <div class="feat">
+        <b>Быстрая примерка</b>
+        <span>Доставка курьером до двери с возможностью примерки</span>
+      </div>
+      <div class="feat">
+        <b>Гарантия качества</b>
+        <span>Оригинальная продукция фабричного производства CABANI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer id="contacts" class="footer">
+  <div class="footer-col">
+    <b>CABANI</b>
+    <span class="footer-sub">SHOES OUTLET</span>
+    <p>Ташкент, Узбекистан · Премиальная обувь и аксессуары по аутлет-ценам.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Навигация</h4>
+    <a href="#catalog">Каталог товаров</a>
+    <a href="#about">О бренде</a>
+    <a href="/admin">Панель управления магазином</a>
+  </div>
+  <div class="footer-col">
+    <h4>Связь с нами</h4>
+    <p id="footerPhone">📞 Телефон: +998 (90) 123-45-67</p>
+    <p>💬 Прием заказов и доставка: 09:00 — 21:00 ежедневно</p>
+  </div>
+  <div class="footer-bottom">
+    <small>© 2026 CABANI SHOES OUTLET. Все права защищены.</small>
+  </div>
+</footer>
+
+<!-- Slide-out Cart Drawer -->
+<div class="shade" id="shade"></div>
+<aside id="drawer" class="drawer">
+  <div class="drawer-head">
+    <h2>Корзина товаров</h2>
+    <button class="close-btn" id="cartClose">✕</button>
+  </div>
+  <div id="cartItems" class="cart-items"></div>
+  <div class="drawer-footer">
+    <div class="total-row">
+      <span>ИТОГО К ОПЛАТЕ:</span>
+      <strong id="total">0 сум</strong>
+    </div>
+    <button class="cta checkout-btn" id="checkout">ОФОРМИТЬ ЗАКАЗ →</button>
+  </div>
+</aside>
+
+<!-- Product Quick-View Modal -->
+<div class="shade" id="modalShade"></div>
+<div id="productModal" class="product-modal">
+  <button class="close-btn" id="productClose">✕</button>
+  <div id="productDetails"></div>
+</div>
+
+<!-- Checkout Modal -->
+<div id="checkoutModal" class="checkout-modal">
+  <button class="close-btn" id="checkoutClose">✕</button>
+  <h2>Оформление заказа</h2>
+  <p class="muted">Заполните контактные данные. Наш менеджер свяжется с вами для подтверждения доставки.</p>
+  
+  <form id="checkoutForm" class="checkout-form">
+    <label>
+      Ваше имя *
+      <input name="name" required placeholder="Например: Жасур Алимов">
+    </label>
+
+    <label>
+      Номер телефона *
+      <input name="phone" required placeholder="+998 (90) 123-45-67">
+    </label>
+
+    <label>
+      Адрес доставки (город, улица, дом)
+      <input name="address" placeholder="Ташкент, Юнусабадский р-н, ул. Амира Темура 12">
+    </label>
+
+    <label>
+      Комментарий или пожелания к заказу
+      <textarea name="comment" rows="2" placeholder="Например: удобное время доставки, ориентир дома..."></textarea>
+    </label>
+
+    <div class="checkout-summary">
+      <span>Сумма заказа:</span>
+      <b id="checkoutTotal">0 сум</b>
+    </div>
+
+    <button type="submit" class="cta submit-order-btn" id="submitOrderBtn">ПОДТВЕРДИТЬ И ОТПРАВИТЬ ЗАКАЗ</button>
+  </form>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="success-modal">
+  <div class="success-icon">✓</div>
+  <h2>Спасибо за ваш заказ!</h2>
+  <p id="successMessage">Заказ успешно зарегистрирован. Мы свяжемся с вами в течение 15 минут для подтверждения.</p>
+  <button class="primary" id="successCloseBtn">Продолжить покупки</button>
+</div>
+
+<div id="toast"></div>
+
+<script src="/store.js"></script>
+</body>
+</html>

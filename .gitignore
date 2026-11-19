@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+!.env.example
+data/*.sqlite
+data/*.sqlite-*
+data/*.db
+data/*.json
+.vercel
+public/uploads/*
+!public/uploads/.gitkeep
+npm-debug.log*
+.DS_Store
