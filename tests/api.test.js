@@ -169,6 +169,29 @@ async function runTests() {
     assert.strictEqual(settings.data.settings.storeName, "CABANI SHOES OUTLET");
     console.log("✓ Admin settings verified");
 
+    // 11. Malformed session cookie is rejected cleanly (was a 500)
+    console.log("11. Testing malformed session cookie...");
+    const malformed = await request("GET", "/api/admin/me", null, {
+      "Cookie": `cabani_admin_token=admin|${Date.now() + 60000}|abc`
+    });
+    assert.strictEqual(malformed.status, 401);
+    console.log("✓ Malformed session cookie rejected with 401");
+
+    // 12. Changed password cannot be bypassed with another username
+    console.log("12. Testing password change cannot be bypassed...");
+    const changed = await request("POST", "/api/admin/change-password", {
+      currentPassword: "Cabani2026!",
+      newPassword: "a-brand-new-strong-password"
+    });
+    assert.strictEqual(changed.status, 200);
+    const sameUser = await request("POST", "/api/admin/login", { username: "admin", password: "Cabani2026!" }, { "Cookie": "" });
+    assert.strictEqual(sameUser.status, 401);
+    const otherUser = await request("POST", "/api/admin/login", { username: "admin2", password: "Cabani2026!" }, { "Cookie": "" });
+    assert.strictEqual(otherUser.status, 401);
+    const newLogin = await request("POST", "/api/admin/login", { username: "admin", password: "a-brand-new-strong-password" }, { "Cookie": "" });
+    assert.strictEqual(newLogin.status, 200);
+    console.log("✓ Old/default password rejected for every username after change");
+
     console.log("\n========================================================");
     console.log("🎉 ALL CABANI SHOES OUTLET TESTS PASSED SUCCESSFULLY! 🎉");
     console.log("========================================================");
