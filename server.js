@@ -15,7 +15,21 @@ const PORT = Number(process.env.PORT || 3000);
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, "public");
 
-const SESSION_SECRET = process.env.SESSION_SECRET || "cabani-outlet-secret-key-2026-secure-token";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
+// Never fall back to a secret that is committed to the repository: anyone who
+// reads the source could sign their own admin session cookie with it.
+function resolveSessionSecret() {
+  const secret = process.env.SESSION_SECRET || "";
+  if (secret.length >= 32) return secret;
+  if (IS_PRODUCTION) {
+    throw new Error("SESSION_SECRET must be set to at least 32 characters in production");
+  }
+  console.warn("SESSION_SECRET is not set; using a random per-process secret (development only).");
+  return crypto.randomBytes(32).toString("hex");
+}
+
+const SESSION_SECRET = resolveSessionSecret();
 
 function signToken(username) {
   const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000;
@@ -32,7 +46,10 @@ function verifyToken(token) {
   const expiresAt = Number(expiresAtStr);
   if (Date.now() > expiresAt) return null;
   const expectedSignature = crypto.createHmac("sha256", SESSION_SECRET).update(`${username}|${expiresAtStr}`).digest("hex");
-  if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))) {
+  const given = Buffer.from(String(signature));
+  const expected = Buffer.from(expectedSignature);
+  // timingSafeEqual throws on length mismatch, which turned malformed cookies into 500s.
+  if (given.length === expected.length && crypto.timingSafeEqual(given, expected)) {
     return { username, expiresAt };
   }
   return null;
@@ -280,7 +297,7 @@ app.post("/api/admin/change-password", auth, async (req, res) => {
     const newPassword = String(req.body.newPassword || "");
     const admin = storage.getAdmin(req.admin.username);
 
-    if (!bcrypt.compareSync(currentPassword, admin.password_hash)) {
+    if (!admin || !bcrypt.compareSync(currentPassword, admin.password_hash)) {
       return res.status(400).json({ error: "Текущий пароль неверен" });
     }
     if (newPassword.length < 8) {
